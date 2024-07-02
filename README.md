@@ -1,58 +1,76 @@
-## Python Package Setup
+# exec_with_namespace
 
-### Setup Base
+`exec_with_namespace` is a Python module that provides a convenient wrapper around the built-in `exec()` function, offering additional features and type safety.
 
-To install required pip modules for `generate_toml.py`, run
-``` bash
-source scripts/setup_base.sh
+## Features
+
+- Execute single or multiple Python code strings
+- Automatic indentation correction
+- Type-hinted for better IDE support and code safety
+- Simplified namespace management
+
+## Installation
+
+You can install this module using pip:
+
+```
+pip install exec-with-namespace
 ```
 
-### User Setup
+## Usage
 
-- go to `generate_toml.py` file, and complete the setup in the `User Setup` session.
+Here's a basic example of how to use `exec_with_namespace`:
 
 ```python
-options = Options(
-    # Will you use the discussion session in your repo?
-    discussion=False
-)
+from exec_with_namespace import exec_with_namespace
 
-# Define the general information of your package
-kwargs = Kwargs(
-    name_space="None",
-    module_name="None",
-    description="None",
-)
+# Execute a single code string
+namespace = {}
+exec_with_namespace("""
+def greet(name):
+    return f"Hello, {name}!"
+
+result = greet("World")
+""", namespace)
+
+print(namespace['result'])  # Output: Hello, World!
+
+# Execute multiple code strings
+namespace = {}
+codes = [
+    """
+    x = 10
+    y = 20
+    """,
+    """
+    sum = x + y
+    """
+]
+exec_with_namespace(codes, namespace)
+
+print(namespace['sum'])  # Output: 30
 ```
 
-If you wrote all the information, run
-```
-python generate_toml.py
-```
+## API
 
-#### Template
-
-If you want to understand the generation process, check the `template` variable in `generate_toml.py`.
-
-### Setup Env
-
-#### Prerequisite
-
-Finish [User Setup](#user-setup) first.
-Of course, conda command must be available.
-
-#### Setup Env
-
-Run
-``` bash
-source scripts/setup_env.sh
+```python
+def exec_with_namespace(
+    code: Union[str, List[str]],
+    namespace: Dict[str, Any],
+    globals: Optional[Dict[str, Any]] = None,
+    indent_patch: bool = True
+) -> None:
 ```
 
-steps
-- create an conda environment named as your $MODULE_NAME
-- activate the environment.
-- install requirements.txt
+- `code`: A string or list of strings containing Python code to execute.
+- `namespace`: A dictionary that will be used as the local namespace for execution.
+- `globals`: An optional dictionary to use as the global namespace. If not provided, an empty dictionary will be used.
+- `indent_patch`: If True (default), automatically corrects indentation issues in the provided code.
 
-## Workflows
+## Contributing
 
-Not documented yet.
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.

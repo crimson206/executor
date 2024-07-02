@@ -66,7 +66,7 @@ def test_execute_multi_codes():
     assert namespaces['b'] == 2
 
 
-def test_indent_patch_not_applied():
+def test_indent_patch_applied():
     code = """
     a = 1
     b = 2
@@ -80,6 +80,20 @@ def test_indent_patch_not_applied():
 
     assert namespaces['a'] == 1
     assert namespaces['b'] == 2
+
+
+def test_indent_patch_not_applied():
+    code = """
+    a = 1
+    b = 2
+    """
+
+    namespaces = {}
+
+    with pytest.raises(IndentationError):
+        exec_with_namespace(
+            code, namespaces, indent_patch=False
+        )
 
 
 if __name__ == "__main__":
