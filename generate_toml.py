@@ -122,12 +122,12 @@ options = Options(
 
 # Define the general information of your package
 kwargs = Kwargs(
-    name_space="crimson-templator",
-    module_name="requirements",
-    description="requirements file templates.",
+    name_space="crimson",
+    module_name="executor",
+    description="Improve the experience of the exec() function.",
 )
 
-kwargs_skeleton = kwargs.model_copy ()
+kwargs_skeleton = kwargs.model_copy()
 kwargs_skeleton.name_space = kwargs_skeleton.name_space.replace('-', '/')
 
 # endregion
